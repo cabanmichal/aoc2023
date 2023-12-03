@@ -1,4 +1,6 @@
 #!/usr/bin/env groovy
+import groovy.transform.Immutable
+
 /**
  * --- Day 3: Gear Ratios ---
  * https://adventofcode.com/2023/day/3
@@ -115,11 +117,15 @@ class PartNumber {
 
     List<Position> getAdjacentPositions(int maxRow, int maxColumn) {
         Set<Position> adjacentPositions = []
-        positions.each {
-            adjacentPositions.addAll(it.getAdjacentPositions(maxRow, maxColumn))
+        for (Position position : positions ) {
+            for (Position adjacent : position.getAdjacentPositions(maxRow, maxColumn)) {
+                if (adjacent != position) {
+                    adjacentPositions.add(adjacent)
+                }
+            }
         }
 
-        return adjacentPositions.sort()
+        return adjacentPositions.toList()
     }
 }
 
@@ -155,7 +161,7 @@ class SchemeEntry {
     Position position
 }
 
-
+@Immutable
 class Position {
     int row
     int column
