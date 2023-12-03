@@ -3,7 +3,8 @@ import java.util.regex.Pattern
 
 /**
  * --- Day 1: Trebuchet?! ---
- * https://adventofcode.com/2023/day/1*/
+ * https://adventofcode.com/2023/day/1
+ */
 
 class Day01 {
     final static String INPUT = "../data/aoc2023_01_input.txt"
