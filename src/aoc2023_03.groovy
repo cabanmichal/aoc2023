@@ -10,8 +10,8 @@ class Day03 {
     static void main(String[] args) {
         Schematic schematic = new Schematic(INPUT)
 
-        println schematic.partNumbers.findAll{it.isValidPartNumber()}.sum{it.value}  // 536576
-        println schematic.parts.sum{it.gearRatio()}  // 75741499
+        println schematic.partNumbers.findAll { it.isValidPartNumber() }.sum { it.value }  // 536576
+        println schematic.parts.sum { it.gearRatio() }  // 75741499
     }
 }
 
@@ -29,11 +29,11 @@ class Schematic {
     }
 
     private void loadSchematic(String schematicFilePath) {
-        new File(schematicFilePath).eachWithIndex{ String line, int row ->
+        new File(schematicFilePath).eachWithIndex { String line, int row ->
 
             List<SchemeEntry> sameRowEntries = []
 
-            line.eachWithIndex{ String chr, int col ->
+            line.eachWithIndex { String chr, int col ->
                 Position position = new Position(row: row, column: col)
                 sameRowEntries << new SchemeEntry(rawValue: chr, position: position)
             }
@@ -43,12 +43,12 @@ class Schematic {
     }
 
     private void loadPartNumbers() {
-        schematic.each{ List<SchemeEntry> entries ->
+        schematic.each { List<SchemeEntry> entries ->
 
             List<SchemeEntry> numberEntries = []
             String number = ""
 
-            entries.each{ SchemeEntry entry ->
+            entries.each { SchemeEntry entry ->
                 if (entry.rawValue.isNumber()) {
                     number += entry.rawValue
                     numberEntries << entry
@@ -57,7 +57,7 @@ class Schematic {
                         && number) {
                     PartNumber partNumber = new PartNumber()
                     partNumber.value = number.toInteger()
-                    partNumber.positions.addAll(numberEntries.collect {it.position})
+                    partNumber.positions.addAll(numberEntries.collect { it.position })
 
                     numberEntries.each {
                         entry.partNumber = partNumber
@@ -73,8 +73,8 @@ class Schematic {
     }
 
     private void loadParts() {
-        schematic.each{ List<SchemeEntry> entries ->
-            entries.each{ SchemeEntry entry ->
+        schematic.each { List<SchemeEntry> entries ->
+            entries.each { SchemeEntry entry ->
                 if (!entry.rawValue.isNumber() && entry.rawValue != ".") {
                     Part part = new Part(value: entry.rawValue, position: entry.position)
                     entry.part = part
