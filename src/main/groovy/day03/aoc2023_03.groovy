@@ -1,16 +1,19 @@
 #!/usr/bin/env groovy
-import groovy.transform.Immutable
-
 /**
  * --- Day 3: Gear Ratios ---
  * https://adventofcode.com/2023/day/3
  */
+package day03
+
+import groovy.transform.Immutable
+
+import static utils.Utils.getFile
 
 class Day03 {
-    final static String INPUT = "../data/aoc2023_03_input.txt"
+    final static Integer day = 3
 
     static void main(String[] args) {
-        Schematic schematic = new Schematic(INPUT)
+        Schematic schematic = new Schematic(getFile(day))
 
         println schematic.partNumbers.findAll { it.isValidPartNumber() }.sum { it.value }  // 536576
         println schematic.parts.sum { it.gearRatio() }  // 75741499
@@ -23,15 +26,15 @@ class Schematic {
     List<Part> parts = []
     private List<List<SchemeEntry>> schematic = []
 
-    Schematic(String schematicFilePath) {
-        loadSchematic(schematicFilePath)
+    Schematic(File schematicFile) {
+        loadSchematic(schematicFile)
         loadPartNumbers()
         loadParts()
         connectPartsAndPartNumbers()
     }
 
-    private void loadSchematic(String schematicFilePath) {
-        new File(schematicFilePath).eachWithIndex { String line, int row ->
+    private void loadSchematic(File schematicFile) {
+        schematicFile.eachWithIndex { String line, int row ->
 
             List<SchemeEntry> sameRowEntries = []
 

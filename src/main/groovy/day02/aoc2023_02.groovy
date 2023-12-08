@@ -1,17 +1,20 @@
 #!/usr/bin/env groovy
-import java.util.regex.Pattern
-
 /**
  * --- Day 2: Cube Conundrum ---
  * https://adventofcode.com/2023/day/2
  */
+package day02
+
+import java.util.regex.Pattern
+
+import static utils.Utils.getFile
 
 class Day02 {
-    final static String INPUT = "../data/aoc2023_02_input.txt"
+    final static Integer day = 2
 
     static void main(String[] args) {
         List games = []
-        new File(INPUT).eachLine {
+        getFile(day).eachLine {
             games << Game.fromGameInfo(it)
         }
 

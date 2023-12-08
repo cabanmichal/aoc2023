@@ -3,12 +3,15 @@
  * --- Day 5: You Give A Seed A Fertilizer ---
  * https://adventofcode.com/2023/day/5
  */
+package day05
+
+import static utils.Utils.getFile
 
 class Day05 {
-    final static String INPUT = "../data/aoc2023_05_input.txt"
+    final static Integer day = 5
 
     static void main(String[] args) {
-        Solver solver = new Solver(INPUT)
+        Solver solver = new Solver(getFile(day))
 
         // part 1
         println solver.seeds.collect { solver.getLocationOfSeed(it) }.min()  // 825516882
@@ -32,8 +35,8 @@ class Solver {
     List<BigInteger> seeds = []
     List<AlmanacMap> maps = []
 
-    Solver(String inputPath) {
-        List<String> items = new File(inputPath).text.split(/\r?\n\r?\n/)
+    Solver(File inputFile) {
+        List<String> items = inputFile.text.split(/\r?\n\r?\n/)
         seeds = (items[0] - "seeds:").split()*.toBigInteger()
 
         items[1..-1].each { String item ->

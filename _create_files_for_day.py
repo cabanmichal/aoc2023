@@ -6,8 +6,8 @@ from html.parser import HTMLParser
 from pathlib import Path
 
 YEAR = 2023
-SRC_DIR = "src"
-INPUT_DIR = "data"
+SRC_DIR = os.path.join("src", "main", "groovy")
+INPUT_DIR = os.path.join("src", "main", "resources", "input")
 INPUT_FILE_TEMPLATE = "aoc{}_{:02}_input.txt"
 SCRIPT_FILE_TEMPLATE = "aoc{}_{:02}.groovy"
 URL_TEMPLATE = "https://adventofcode.com/{}/day/{}"
@@ -18,9 +18,12 @@ SCRIPT_TEMPLATE = """\
  * {heading}
  * {url}
  */
+package day{day:02}
+
+import static utils.Utils.getFile
 
 class Day{day:02} {{
-    final static String INPUT = "{input_file}"
+    final static Integer day = {day}
 
     static void main(String[] args) {{
         
@@ -70,7 +73,8 @@ def get_heading(url: str) -> str | None:
     parser.feed(get_html_content(url))
     return parser.heading
 
-#def get_heading(url):
+
+# def get_heading(url):
 #    return "HEADING"
 
 
@@ -78,21 +82,22 @@ def main() -> None:
     day_number = int(sys.argv[1])
     url = URL_TEMPLATE.format(YEAR, day_number)
     heading = get_heading(url)
-    src_dir = Path(SRC_DIR)
+    src_dir = Path(SRC_DIR) / f"day{day_number:02}"
     input_dir = Path(INPUT_DIR)
     input_file_name = INPUT_FILE_TEMPLATE.format(YEAR, day_number)
     script_file_name = SCRIPT_FILE_TEMPLATE.format(YEAR, day_number)
 
+    os.makedirs(input_dir, exist_ok=True)
     with open(input_dir / input_file_name, "w"):
         pass
 
+    os.makedirs(src_dir, exist_ok=True)
     with open(src_dir / script_file_name, "w", encoding="utf-8") as scriptfile:
         scriptfile.write(
             SCRIPT_TEMPLATE.format(
                 heading=heading,
                 url=url,
-                day=day_number,
-                input_file=f"../{input_dir / input_file_name}")
+                day=day_number)
         )
 
     os.chmod(src_dir / script_file_name, 0o755)
