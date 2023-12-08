@@ -26,3 +26,5 @@ replay_pid*
 # ide settings
 .idea/
 
+### Mac OS ###
+.DS_Store
