@@ -1,5 +1,6 @@
 # Compiled class file
 *.class
+target/
 
 # Log file
 *.log
@@ -25,6 +26,7 @@ replay_pid*
 
 # ide settings
 .idea/
+*.iml
 
 ### Mac OS ###
 .DS_Store
