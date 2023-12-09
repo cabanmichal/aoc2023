@@ -1,6 +1,6 @@
 #!/usr/bin/env groovy
 /**
- * --- Day 9: Haunted Wasteland ---
+ * --- Day 9: Mirage Maintenance ---
  * https://adventofcode.com/2023/day/9
  */
 package day09
@@ -9,9 +9,43 @@ import static utils.Utils.getFile
 
 class Day09 {
     final static Integer day = 9
-    static boolean debug = false
 
     static void main(String[] args) {
-        getFile(day)
+        Integer sumOfNextValues = 0
+        Integer sumOfPrevValues = 0
+
+        getFile(day).eachLine { String line ->
+            Tuple2 values = getPrevAndNextValue(line.split().collect {it.toInteger()})
+            sumOfPrevValues += values[0]
+            sumOfNextValues += values[1]
+        }
+
+        println sumOfNextValues  // 1782868781
+        println sumOfPrevValues  // 1057
     }
+
+    static Tuple2<Integer, Integer> getPrevAndNextValue(List<Integer> values) {
+        Integer nextValue = 0
+        Integer prevValue = 0
+        List<Integer> firstValues = []
+        List<Integer> diffs = values.collect()
+
+        while (!diffs.every {it == 0 }) {
+            firstValues << diffs[0]
+            nextValue += diffs[-1]
+            List<Integer> newDiffs = []
+
+            for (int i = 0; i < diffs.size() - 1; i++) {
+                newDiffs << diffs[i+1] - diffs[i]
+            }
+
+            diffs = newDiffs.collect()
+        }
+
+        firstValues.reverseEach {prevValue = it - prevValue }
+
+        return new Tuple2(prevValue, nextValue)
+    }
+
 }
+
