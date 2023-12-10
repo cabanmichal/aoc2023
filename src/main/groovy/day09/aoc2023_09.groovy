@@ -25,10 +25,9 @@ class Day09 {
     }
 
     static Tuple2<Integer, Integer> getPrevAndNextValue(List<Integer> values) {
-        Integer nextValue = 0
-        Integer prevValue = 0
         List<Integer> firstValues = []
         List<Integer> diffs = values.collect()
+        Integer nextValue = 0
 
         while (!diffs.every {it == 0 }) {
             firstValues << diffs[0]
@@ -42,10 +41,10 @@ class Day09 {
             diffs = newDiffs.collect()
         }
 
+        Integer prevValue = 0
         firstValues.reverseEach {prevValue = it - prevValue }
 
         return new Tuple2(prevValue, nextValue)
     }
 
 }
-
