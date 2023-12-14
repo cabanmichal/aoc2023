@@ -13,10 +13,21 @@ class Day14 {
     static void main(String[] args) {
         List<List<String>> rocks
 
-        // part 1 - naive approach not suitable for part 2
+        // part 1
         rocks = loadRocks(getFile(day))
         slideNorth(rocks)
         println calculateNorthLoad(rocks)  // 109755
+
+        // part 2 - cannot do 1_000_000_000 repetitions
+        // however, there's a cycle - I found it manually and found the answer using modulo
+        rocks = loadRocks(getFile(day))
+        1000.times {
+            cycle(rocks)
+            println calculateNorthLoad(rocks)
+        }
+        //  90928
+
+
     }
 
     static List<List<String>> loadRocks(File file) {
