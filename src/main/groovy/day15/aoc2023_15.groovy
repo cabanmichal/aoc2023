@@ -15,12 +15,8 @@ class Day15 {
     static void main(String[] args) {
 
         // part 1
-        def sumOfHashes = 0
-        getFile(day).text.trim().split(/,/).each { String seq ->
-            sumOfHashes += seqHash(seq)
-        }
-
-        println sumOfHashes  // 506869
+        println getFile(day).text.trim().split(/,/)
+                .inject(0) {result, it -> result += seqHash(it)} // 506869
 
         // part 2
         def boxes = (0..<256).collect { new Box(it) }
@@ -32,7 +28,7 @@ class Day15 {
     }
 
     static int seqHash(String seq) {
-        int currentValue = 0
+        def currentValue = 0
         seq.toCharArray().each {
             currentValue += it
             currentValue *= 17
@@ -50,7 +46,7 @@ class Seq {
     String seq
 
     Seq(String seq) {
-        List<String> parts = seq.split(/=/)
+        def parts = seq.split(/=/) as List<String>
         label = parts[0].replace("-", "")
         focalLength = parts[1]?.toInteger() ?: 0
         this.seq = seq
@@ -67,7 +63,7 @@ class Box {
     }
 
     void processSeq(Seq seq) {
-        int i = lenses.findIndexOf { it.label == seq.label }
+        def i = lenses.findIndexOf { it.label == seq.label }
         if (seq.focalLength == 0) {
             if (i != -1) {
                 lenses.remove(i)
@@ -80,7 +76,7 @@ class Box {
     }
 
     int getBoxScore() {
-        int score = 0
+        def score = 0
         lenses.eachWithIndex { Seq entry, int i ->
             score += (id + 1) * (i + 1) * entry.focalLength
         }
