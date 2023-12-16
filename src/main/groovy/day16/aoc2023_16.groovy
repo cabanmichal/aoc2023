@@ -71,10 +71,7 @@ class Day16 {
 @Immutable
 @EqualsAndHashCode
 class Beam {
-    Integer r
-    Integer c
-    Integer dr
-    Integer dc
+    Integer r, c, dr, dc
 
     Beam move(String contraptionPart, Set<Beam> beams) {
         if (contraptionPart == "-") {
@@ -94,32 +91,16 @@ class Beam {
             }
         }
         if (contraptionPart == "/") {
-            if (dr == -1) {
-                return [r, c + 1, 0, 1]
-            }
-            if (dr == 1) {
-                return [r, c - 1, 0, -1]
-            }
-            if (dc == -1) {
-                return [r + 1, c, 1, 0]
-            }
-            if (dc == 1) {
-                return [r - 1, c, -1, 0]
-            }
+            if (dr == -1) return [r, c + 1, 0, 1]  // 👆🏻👉🏻
+            if (dr == 1) return [r, c - 1, 0, -1]  // 👇🏻👈🏻
+            if (dc == -1) return [r + 1, c, 1, 0]  // 👈🏻👇🏻
+            if (dc == 1) return [r - 1, c, -1, 0]  // 👉🏻👆🏻
         }
         if (contraptionPart == "\\") {
-            if (dr == -1) {
-                return [r, c - 1, 0, -1]
-            }
-            if (dr == 1) {
-                return [r, c + 1, 0, 1]
-            }
-            if (dc == -1) {
-                return [r - 1, c, -1, 0]
-            }
-            if (dc == 1) {
-                return [r + 1, c, 1, 0]
-            }
+            if (dr == -1) return [r, c - 1, 0, -1]
+            if (dr == 1) return [r, c + 1, 0, 1]
+            if (dc == -1) return [r - 1, c, -1, 0]
+            if (dc == 1) return [r + 1, c, 1, 0]
         }
         return [r + dr, c + dc, dr, dc]
     }
